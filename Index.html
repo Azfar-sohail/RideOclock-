@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>RideOclock | Premium Spare Parts</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #f5f7fa;
+      color: #1a1e24;
+      scroll-behavior: smooth;
+    }
+
+    /* Gray / Silver / Black Theme */
+    :root {
+      --primary-dark: #1e1e1e;
+      --primary-silver: #e5e7eb;
+      --primary-gray: #4b5563;
+      --card-bg: #ffffff;
+      --bg-light: #f9fafb;
+      --accent-dark: #2c2f36;
+      --border-light: #d4d4d8;
+      --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+      --shadow-md: 0 20px 25px -12px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header & Nav */
+    header {
+      background: #0f0f12;
+      backdrop-filter: blur(2px);
+      border-bottom: 1px solid #2c2f36;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      flex-wrap: wrap;
+    }
+
+    .logo h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #e0e0e0, #9ca3af);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .logo p {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links button {
+      background: none;
+      border: none;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #d1d5db;
+      cursor: pointer;
+      transition: var(--transition);
+      padding: 0.5rem 0;
+      position: relative;
+    }
+
+    .nav-links button:hover, .nav-links button.active {
+      color: white;
+    }
+
+    .nav-links button.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #b0b3b8;
+      border-radius: 2px;
+    }
+
+    /* Main Content + Animation */
+    #app {
+      min-height: 70vh;
+      animation: fadeSlideUp 0.4s ease-out;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Page transition wrapper */
+    .page {
+      transition: opacity 0.2s ease;
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(125deg, #1a1c23 0%, #2a2e3a 100%);
+      border-radius: 2rem;
+      padding: 3rem 2rem;
+      margin: 2rem 0;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+      border: 1px solid rgba(156,163,175,0.2);
+    }
+
+    .hero h2 {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(to right, #f0f0f0, #a0a5b0);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      color: #cbd5e1;
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .btn-primary {
+      background: #2c2f36;
+      border: 1px solid #6b7280;
+      padding: 0.75rem 2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-primary:hover {
+      background: #3f434c;
+      transform: scale(1.02);
+      border-color: #9ca3af;
+    }
+
+    /* Cards Grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0 3rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 1.5rem;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      border: 1px solid #e9eef3;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 30px -12px rgba(0, 0, 0, 0.15);
+      border-color: #cbd5e1;
+    }
+
+    .card-img {
+      height: 180px;
+      background: #eef2f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.5s ease;
+    }
+    .card:hover .card-img {
+      transform: scale(1.02);
+    }
+
+    .card-content {
+      padding: 1.2rem;
+      flex: 1;
+    }
+
+    .card-content h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #111827;
+    }
+
+    .price {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #1f2937;
+      margin: 0.5rem 0;
+    }
+
+    .desc {
+      color: #4b5563;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin-bottom: 1rem;
+    }
+
+    .shop-btn {
+      background: #1e1e24;
+      border: none;
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      color: #e5e7eb;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .shop-btn:hover {
+      background: #3a3f4b;
+      color: white;
+      gap: 12px;
+    }
+
+    /* Service & Contact */
+    .service-list, .contact-info {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 2rem;
+      margin: 2rem 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .service-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+      align-items: center;
+    }
+
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 0.7rem 0;
+      border: 1px solid #cbd5e1;
+      border-radius: 1rem;
+      background: #fefefe;
+    }
+
+    /* Chatbot Widget */
+    .chatbot-widget {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1000;
+    }
+
+    .chat-toggle {
+      background: #1f2937;
+      border-radius: 60px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      border: 1px solid #6b7280;
+      transition: 0.2s;
+    }
+
+    .chat-toggle:hover {
+      background: #374151;
+    }
+
+    .chat-panel {
+      position: absolute;
+      bottom: 70px;
+      right: 0;
+      width: 320px;
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 25px 40px -12px black;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid #d4d4d8;
+      transition: all 0.2s ease;
+    }
+
+    .chat-header {
+      background: #1e1e24;
+      color: #e5e7eb;
+      padding: 14px 16px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .chat-messages {
+      height: 280px;
+      overflow-y: auto;
+      padding: 12px;
+      background: #f9fafb;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .bot-msg, .user-msg {
+      max-width: 85%;
+      padding: 8px 12px;
+      border-radius: 18px;
+      font-size: 0.85rem;
+    }
+
+    .bot-msg {
+      background: #e5e7eb;
+      color: #111;
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+
+    .user-msg {
+      background: #2c2f36;
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-input-area {
+      display: flex;
+      border-top: 1px solid #ddd;
+      padding: 8px;
+      background: white;
+    }
+
+    .chat-input-area input {
+      flex: 1;
+      border: none;
+      padding: 10px;
+      border-radius: 40px;
+      background: #f1f3f5;
+    }
+
+    .chat-input-area button {
+      background: #2c2f36;
+      border: none;
+      color: white;
+      border-radius: 40px;
+      margin-left: 6px;
+      padding: 0 14px;
+      cursor: pointer;
+    }
+
+    /* footer */
+    footer {
+      margin-top: 4rem;
+      background: #0f0f12;
+      padding: 2rem 0;
+      text-align: center;
+      color: #9ca3af;
+      border-top: 1px solid #2c2f36;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .hero h2 {
+        font-size: 2rem;
+      }
+      .product-grid {
+        gap: 1rem;
+      }
+      .chat-panel {
+        width: 280px;
+        right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="navbar">
+      <div class="logo">
+        <h1>RideOclock</h1>
+        <p>by A&A | Precision Spare Parts</p>
+      </div>
+      <ul class="nav-links">
+        <li><button data-page="home" class="nav-btn active">Home</button></li>
+        <li><button data-page="service" class="nav-btn">Service</button></li>
+        <li><button data-page="product" class="nav-btn">Product</button></li>
+        <li><button data-page="contact" class="nav-btn">Contact</button></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<main class="container" id="app">
+  <!-- dynamic content injected -->
+</main>
+
+<footer>
+  <p>© 2025 RideOclock — A&A Motors | Quality spare parts & service | 📞 03110387727</p>
+</footer>
+
+<!-- Chatbot Widget -->
+<div class="chatbot-widget">
+  <div class="chat-toggle" id="chatToggle">
+    💬 AI Assistant
+  </div>
+  <div id="chatPanel" class="chat-panel" style="display: none;">
+    <div class="chat-header">
+      <span>🤖 RideOclock Bot</span>
+      <span style="cursor:pointer" id="closeChat">✖</span>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="bot-msg">Hello! I'm RideOclock assistant. Need help with products, orders or services? Ask me anything!</div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" placeholder="Ask something..." />
+      <button id="sendChatMsg">➤</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------- PRODUCTS DATABASE (20 products) ----------
+  const products = [
+    { id: 1, name: "Brake Pad Set", price: "$29.99", desc: "Ceramic disc brake pads, long-lasting.", img: "🛞" },
+    { id: 2, name: "Air Filter", price: "$14.50", desc: "High flow cotton gauze, washable.", img: "🌀" },
+    { id: 3, name: "Spark Plug Iridium", price: "$9.99", desc: "Enhanced ignition, fuel efficiency.", img: "⚡" },
+    { id: 4, name: "Clutch Kit", price: "$129.90", desc: "Heavy-duty clutch for performance.", img: "🔧" },
+    { id: 5, name: "Timing Belt", price: "$42.30", desc: "Reinforced rubber, exact fitment.", img: "⛓️" },
+    { id: 6, name: "Oil Filter", price: "$8.75", desc: "Anti-drainback valve, OEM spec.", img: "🧴" },
+    { id: 7, name: "Headlight Bulb LED", price: "$34.99", desc: "6000K bright white, plug & play.", img: "💡" },
+    { id: 8, name: "Shock Absorber", price: "$87.20", desc: "Twin-tube gas charged, smooth ride.", img: "📦" },
+    { id: 9, name: "Radiator Coolant", price: "$22.50", desc: "Ready-to-use, universal formula.", img: "❄️" },
+    { id: 10, name: "Starter Motor", price: "$149.00", desc: "High torque, brand new.", img: "⚙️" },
+    { id: 11, name: "Alternator", price: "$189.95", desc: "120A output, 1yr warranty.", img: "🔋" },
+    { id: 12, name: "Wiper Blades", price: "$16.99", desc: "Aero dynamic, streak-free.", img: "💧" },
+    { id: 13, name: "Fuel Injector", price: "$54.40", desc: "Precision flow, ultrasonic cleaned.", img: "⛽" },
+    { id: 14, name: "CV Joint", price: "$68.90", desc: "Heavy-duty boot included.", img: "🔩" },
+    { id: 15, name: "Exhaust Gasket", price: "$12.20", desc: "Multi-layer steel, leak-proof.", img: "📄" },
+    { id: 16, name: "Ignition Coil", price: "$44.60", desc: "Direct fit, improved spark.", img: "🔥" },
+    { id: 17, name: "Wheel Bearing Kit", price: "$57.30", desc: "Pre-greased, hub assembly.", img: "⚙️" },
+    { id: 18, name: "Brake Rotor", price: "$74.99", desc: "Drilled & slotted, performance.", img: "🛞" },
+    { id: 19, name: "PCV Valve", price: "$7.85", desc: "OEM replacement, crankcase vent.", img: "🌬️" },
+    { id: 20, name: "Throttle Body", price: "$162.00", desc: "Cleaned & tested, plug & play.", img: "🎛️" }
+  ];
+
+  // Helper: render product grid
+  function renderProductsPage() {
+    return `
+      <div class="page">
+        <h2 style="margin: 1.5rem 0 0.5rem; font-size: 2rem;">⚡ Our Spare Parts Catalog</h2>
+        <p style="color: #4b5563;">Premium quality, genuine and aftermarket parts — Ride with confidence.</p>
+        <div class="product-grid" id="productGrid"></div>
+      </div>
+    `;
+  }
+
+  // attach shop now events after product grid rendered
+  function bindProductButtons() {
+    document.querySelectorAll('.shop-btn').forEach(btn => {
+      btn.removeEventListener('click', window.shopHandler);
+      const handler = (e) => {
+        const name = btn.getAttribute('data-name');
+        const desc = btn.getAttribute('data-desc');
+        const phone = "03110387727";
+        const message = `Hi A&A, I'm interested in "${name}" (${desc}). Please let me know more details.`;
+        const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+      };
+      btn.addEventListener('click', handler);
+      window.shopHandler = handler;
+    });
+  }
+
+  // Product Grid inject + bind
+  function populateProductGrid() {
+    const grid = document.getElementById('productGrid');
+    if (!grid) return;
+    grid.innerHTML = products.map(prod => `
+      <div class="card">
+        <div class="card-img" style="font-size: 3rem; background: #eef2f6; display:flex; align-items:center; justify-content:center;">${prod.img}</div>
+        <div class="card-content">
+          <h3>${prod.name}</h3>
+          <div class="price">${prod.price}</div>
+          <div class="desc">${prod.desc}</div>
+          <button class="shop-btn" data-name="${prod.name.replace(/"/g, '&quot;')}" data-desc="${prod.desc.replace(/"/g, '&quot;')}">🛒 Shop Now →</button>
+        </div>
+      </div>
+    `).join('');
+    bindProductButtons();
+  }
+
+  // Pages content
+  const pages = {
+    home: () => `
+      <div class="page">
+        <div class="hero">
+          <h2>RideOclock — Precision & Performance</h2>
+          <p>Your trusted partner for genuine spare parts. From routine maintenance to high-performance upgrades, we deliver quality and speed.</p>
+          <button class="btn-primary" id="exploreProducts">Explore Products 🚀</button>
+        </div>
+        <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin: 2rem 0;">
+          <div style="flex:1; background: white; border-radius: 1.5rem; padding: 1.5rem; box-shadow: var(--shadow-sm);"><h3>✅ 24/7 Support</h3><p>Our experts help you choose right parts.</p></div>
+          <div style="flex:1; background: white; border-radius: 1.5rem; padding: 1.5rem; box-shadow: var(--shadow-sm);"><h3>🚚 Fast Delivery</h3><p>Express shipping across the country.</p></div>
+          <div style="flex:1; background: white; border-radius: 1.5rem; padding: 1.5rem; box-shadow: var(--shadow-sm);"><h3>🔧 Warranty Included</h3><p>All parts come with manufacturer warranty.</p></div>
+        </div>
+      </div>
+    `,
+    service: () => `
+      <div class="page">
+        <h2 style="margin: 1rem 0;">🛠️ Our Services</h2>
+        <div class="service-list">
+          <div class="service-item">🔍 <strong>Parts Diagnostics</strong> — Identify exact spare part needed for your vehicle.</div>
+          <div class="service-item">📦 <strong>Express Ordering</strong> — Same-day dispatch on in-stock items.</div>
+          <div class="service-item">⚙️ <strong>Installation Guidance</strong> — Video calls & step-by-step support.</div>
+          <div class="service-item">🔄 <strong>Returns & Exchange</strong> — Hassle-free within 14 days.</div>
+          <div class="service-item">📞 <strong>24/7 WhatsApp Support</strong> — Direct line to A&A team.</div>
+        </div>
+        <p style="margin-top: 1rem;">Call us directly: <strong>03110387727</strong> or use our chatbot for quick help.</p>
+      </div>
+    `,
+    product: () => renderProductsPage(),
+    contact: () => `
+      <div class="page">
+        <h2 style="margin: 1rem 0;">📞 Get in Touch</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+          <div class="contact-info">
+            <h3>📍 Business Info</h3>
+            <p><strong>Owner:</strong> A&A (Ahmed & Ali)</p>
+            <p><strong>Phone/WhatsApp:</strong> 03110387727</p>
+            <p><strong>Email:</strong> support@rideoclock.com</p>
+            <p><strong>Address:</strong> Karachi, Pakistan — Showroom open 10am-7pm</p>
+            <button id="whatsappContactBtn" class="shop-btn" style="margin-top: 1rem; background:#075e54;">💬 Chat on WhatsApp</button>
+          </div>
+          <div>
+            <form id="contactForm" class="contact-form">
+              <input type="text" id="contactName" placeholder="Your Name" required>
+              <input type="email" id="contactEmail" placeholder="Email Address" required>
+              <textarea id="contactMsg" rows="4" placeholder="Your Message..."></textarea>
+              <button type="submit" id="sendMsgWhatsAppBtn" class="btn-primary" style="width:100%">📲 Send Message via WhatsApp</button>
+            </form>
+            <p style="font-size: 0.8rem; margin-top: 12px; color: #4b5563;">* Clicking will open WhatsApp with your filled details.</p>
+          </div>
+        </div>
+      </div>
+    `
+  };
+
+  let currentPage = "home";
+
+  function navigateTo(pageId) {
+    currentPage = pageId;
+    const content = pages[pageId] ? pages[pageId]() : "<div>Page not found</div>";
+    document.getElementById('app').innerHTML = content;
+    // additional after render logic
+    if (pageId === 'product') {
+      populateProductGrid();
+    }
+    if (pageId === 'home') {
+      const exploreBtn = document.getElementById('exploreProducts');
+      if (exploreBtn) exploreBtn.addEventListener('click', () => navigateTo('product'));
+    }
+    if (pageId === 'contact') {
+      // Simple WhatsApp direct button (without form)
+      const whatsappBtn = document.getElementById('whatsappContactBtn');
+      if (whatsappBtn) {
+        whatsappBtn.addEventListener('click', () => {
+          window.open(`https://wa.me/03110387727?text=${encodeURIComponent("Hello A&A, I need assistance with spare parts.")}`, '_blank');
+        });
+      }
+      
+      // NEW: Contact form submission redirects to WhatsApp with pre-filled name, email, message
+      const contactForm = document.getElementById('contactForm');
+      if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('contactName')?.value.trim() || '';
+          const email = document.getElementById('contactEmail')?.value.trim() || '';
+          const message = document.getElementById('contactMsg')?.value.trim() || '';
+          
+          if (!name || !email || !message) {
+            alert("Please fill in all fields (Name, Email, Message) before sending.");
+            return;
+          }
+          
+          // Construct a comprehensive message for A&A
+          const fullMessage = `*New Contact Form Submission - RideOclock*\n\n👤 *Name:* ${name}\n📧 *Email:* ${email}\n💬 *Message:* ${message}\n\n📅 Sent from RideOclock website contact form.`;
+          const whatsappNumber = "03110387727";
+          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(fullMessage)}`;
+          window.open(whatsappUrl, '_blank');
+        });
+      }
+    }
+    // update active nav style
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      if (btn.getAttribute('data-page') === pageId) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+  }
+
+  // attach nav event listeners
+  function initNavigation() {
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const page = btn.getAttribute('data-page');
+        navigateTo(page);
+      });
+    });
+  }
+
+  // -------------- AI Chatbot logic --------------
+  function initChatbot() {
+    const toggle = document.getElementById('chatToggle');
+    const panel = document.getElementById('chatPanel');
+    const closeChat = document.getElementById('closeChat');
+    const sendBtn = document.getElementById('sendChatMsg');
+    const chatInput = document.getElementById('chatInput');
+    const messagesContainer = document.getElementById('chatMessages');
+
+    function addBotMessage(text) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'bot-msg';
+      msgDiv.innerText = text;
+      messagesContainer.appendChild(msgDiv);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function addUserMessage(text) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'user-msg';
+      msgDiv.innerText = text;
+      messagesContainer.appendChild(msgDiv);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function processUserQuery(query) {
+      const lower = query.toLowerCase();
+      if (lower.includes('price') || lower.includes('cost')) {
+        return "Our products range from $7 to $190. Check 'Product' page for exact pricing!";
+      } else if (lower.includes('shipping') || lower.includes('delivery')) {
+        return "We offer express shipping (2-4 days) and standard delivery. Contact 03110387727 for tracking.";
+      } else if (lower.includes('warranty')) {
+        return "All spare parts include 6-12 months warranty depending on product type.";
+      } else if (lower.includes('brake') || lower.includes('pad')) {
+        return "Brake pads start at $29.99! Ceramic or semi-metallic both available. Need help ordering?";
+      } else if (lower.includes('contact') || lower.includes('owner')) {
+        return "Owner A&A can be reached at 03110387727 or via WhatsApp chat!";
+      } else if (lower.includes('return')) {
+        return "Returns accepted within 14 days, unused condition. Reach out to support.";
+      } else {
+        return "Thanks for asking! For detailed product specs, visit our Product page or WhatsApp A&A directly at 03110387727. I'm here to guide!";
+      }
+    }
+
+    function handleSend() {
+      const text = chatInput.value.trim();
+      if (text === "") return;
+      addUserMessage(text);
+      chatInput.value = "";
+      setTimeout(() => {
+        const reply = processUserQuery(text);
+        addBotMessage(reply);
+      }, 300);
+    }
+
+    toggle.addEventListener('click', () => {
+      if (panel.style.display === 'none' || panel.style.display === '') {
+        panel.style.display = 'flex';
+      } else {
+        panel.style.display = 'none';
+      }
+    });
+    closeChat.addEventListener('click', () => {
+      panel.style.display = 'none';
+    });
+    sendBtn.addEventListener('click', handleSend);
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleSend();
+    });
+    // Default greeting (already present)
+  }
+
+  // initial load
+  function start() {
+    initNavigation();
+    navigateTo('home');
+    initChatbot();
+  }
+
+  start();
+</script>
+</body>
+</html>
